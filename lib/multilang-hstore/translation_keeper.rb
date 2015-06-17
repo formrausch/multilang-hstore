@@ -101,7 +101,11 @@ module Multilang
           v = value
           if v.empty?
             reduced_locales = locales - [actual_locale]
-            reduced_locales.each do |locale|
+            locale_order    = I18n.available_locales
+
+            sorted_locales = reduced_locales.sort_by{|fn| locale_order.index(fn) || 100 }
+
+            sorted_locales.each do |locale|
               v = value(locale)
               return v unless v.empty?
             end
